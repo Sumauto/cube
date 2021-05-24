@@ -1,0 +1,5 @@
+File file=new File("myOtherStream/fw.txt");
+../MyEclipse10/myOtherStream/fw.txt
+
+File file=new File("itcast/1.txt");
+../MyEclipse10/myOtherStream/fw.txt

@@ -1,0 +1,10 @@
+package com.sumauto.remote;
+
+public class Main {
+
+    public static void main(String[] args){
+        new ServiceThread().start();
+        while (true);
+    }
+
+}

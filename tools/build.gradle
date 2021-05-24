@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+
+}
+
+def VERSION_MAJOR = 0
+def VERSION_MINOR = 0
+def VERSION = 2
+
+def VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION
+def VERSION_NAME = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION}"
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+
+}
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.convention("sources")
+    archiveClassifier.set("sources")
+}
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "product".
+            product(MavenPublication) {
+                // Applies the component for the release build variant.
+                artifact sourcesJar
+
+                from components.debug
+                ///Users/lincoln.zhu/.m2/repository/com/sumauto/tools
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.sumauto'
+                artifactId = 'tools'
+                version = VERSION_NAME
+
+
+            }
+
+        }
+    }
+}
