@@ -1,44 +1,45 @@
 package com.sumauto.helper.flow
 
-import com.sumauto.helper.log.XLog
+open abstract class Task<R>(var name: String = "", var id: Int = 0) {
 
-open class Task(var name: String = "") {
+    enum class State {
+        Init, Attached, Started, DONE
+    }
 
-    private val nextTasks = mutableSetOf<Task>()
-    private var condition: Condition? = null
-    private var isDone:Boolean=false
+    private var result: R? = null
+    private var workFlow: WorkFlow? = null
+    var state: State = State.Init
 
-    fun setCondition(condition: Condition) {
-        this.condition = condition
+    fun onAttach(workFlow: WorkFlow) {
+        this.workFlow = workFlow
+        state = State.Attached
     }
 
 
     fun requestStart() {
-        if (condition == null) {
-            println("$name condition is null" )
-            onStart()
-        } else {
-            if (condition!!.canStart()) {
-                println("$name condition canStart" )
-
-                onStart()
-            }
-        }
-
+        state = State.Started
+        println("$name onStart")
+        onStart()
     }
 
-    open fun onStart() {
-        println("${name} onStart")
+    open fun canStart(): Boolean {
+
+        return true
     }
 
-    fun done() {
-        isDone=true
-        nextTasks.forEach {
-            it.requestStart()
-        }
+    abstract fun onStart();
+
+    fun done(r: R) {
+        state = State.DONE
+        workFlow?.onComplete(this)
     }
 
     fun isDone(): Boolean {
-        return isDone
+        return state == State.DONE
     }
+
+    fun getResult(): R? {
+        return result
+    }
+
 }
