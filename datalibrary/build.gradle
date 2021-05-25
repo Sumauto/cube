@@ -115,7 +115,7 @@ afterEvaluate {
                 ///Users/lincoln.zhu/.m2/repository/com/sumauto/tools
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.github.Sumauto'
-                artifactId = 'cube'
+                artifactId = 'data'
                 version = VERSION_NAME
 
 
