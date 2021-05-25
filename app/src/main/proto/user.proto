@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-option java_package = "com.sumauto.data";
-option java_outer_classname = "Hello";
-
-message Person {
-  string name = 1;
-}

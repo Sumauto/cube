@@ -1,5 +1,4 @@
 include ':shell'
 include ':tools'
 include ':datalibrary'
-include ':app'
 rootProject.name = "Cube"
