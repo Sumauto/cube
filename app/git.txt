@@ -1,0 +1,6 @@
+git push origin --delete tag 0.0.4
+git fetch origin tag 0.0.5
+
+
+git tag -a 0.0.6 -m "release"
+git push --tags

@@ -31,7 +31,7 @@ public class ExampleUnitTest {
         Properties properties = new Properties();
         File file=new File("myOtherStream/fw.txt");
         System.out.println(""+file.getAbsolutePath());
-        FileReader reader = new FileReader("app/test.txt");
+        FileReader reader = new FileReader("app/git.txt");
         properties.load(reader);
         reader.close();
 
