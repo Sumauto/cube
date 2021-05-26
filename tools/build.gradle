@@ -5,12 +5,6 @@ plugins {
 
 }
 
-def VERSION_MAJOR = 0
-def VERSION_MINOR = 0
-def VERSION = 3
-
-def VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION
-def VERSION_NAME = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION}"
 
 android {
     compileSdkVersion 30
@@ -70,7 +64,7 @@ afterEvaluate {
                 from components.debug
                 ///Users/lincoln.zhu/.m2/repository/com/sumauto/tools
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'com.github.Sumauto'
+                groupId = maven_group_id
                 artifactId = 'tools'
                 version = VERSION_NAME
 
