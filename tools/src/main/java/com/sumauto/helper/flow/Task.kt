@@ -9,13 +9,13 @@ abstract class Task<R>(var name: String = "", var id: Int = 0) {
     }
 
     var state: MutableLiveData<State> = MutableLiveData(State.Init)
-    private var result: R? = null
+    var result: R? = null
 
     abstract fun run()
 
     fun finish(result: R) {
         state.postValue(State.DONE)
-        this.result=result
+        this.result = result
     }
 
 }
