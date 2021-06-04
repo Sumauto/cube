@@ -5,7 +5,7 @@ buildscript {
     def VERSION = 6
     ext{
         maven_group_id='com.github.sumauto.cube'
-        kotlin_version = '1.5.0'
+        kotlin_version = '1.5.10'
         recycler_view_version='1.2.0'
         VERSION_CODE = VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION
         VERSION_NAME = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION}"
@@ -29,9 +29,12 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
+
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+
     }
 }
 

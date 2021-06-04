@@ -45,7 +45,7 @@ class WorkFlow(vararg task: Task<*>) {
             blockBy!!.forEach {
                 data.addSource(it.state) { state ->
                     if (state == Task.State.DONE) {
-                        XLog.d(Works.TAG,"block by ${it.name} has end")
+                        XLog.d(Works.TAG,"${it.name} block cancel")
                         data.value=true
                         data.removeSource(it.state)
                     }
@@ -57,10 +57,10 @@ class WorkFlow(vararg task: Task<*>) {
                     it.state.value != Task.State.DONE
                 }
                 if (find == null) {
-                    XLog.d(Works.TAG,"not find un done task,")
+                    XLog.d(Works.TAG,"flow has completed!")
                     complete?.run()
                 }else{
-                    XLog.d(Works.TAG,"find un done task ${find.name}")
+                    XLog.d(Works.TAG,"find running task ${find.name}")
                 }
             }
         }

@@ -2,7 +2,7 @@ package com.sumauto.helper.flow
 
 import androidx.lifecycle.MutableLiveData
 
-abstract class Task<R>(var name: String = "", var id: Int = 0) {
+abstract class Task<R>(var name: String = "") {
 
     enum class State {
         Init, Attached, Started, DONE
