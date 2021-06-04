@@ -61,37 +61,37 @@ class WorkFlowTest : AppCompatActivity() {
 
 
     private fun testTask() {
-        val lottie: Task<Boolean> = object : Task<Boolean>("lottie", 1) {
+        val lottie: Task<Boolean> = object : Task<Boolean>("lottie") {
 
             override fun run() {
                 //3-5秒
                 executeOnMain(this, 3, 5)
             }
         }
-        val organic: Task<Boolean> = object : Task<Boolean>("organic", 1) {
+        val organic: Task<Boolean> = object : Task<Boolean>("organic") {
             override fun run() {
                 //监听归因结果
                 executeOnMain(this, 1, 10)
 
             }
         }
-        val wallPaper: Task<Boolean> = object : Task<Boolean>("wallPaper", 1) {
+        val wallPaper: Task<Boolean> = object : Task<Boolean>("wallPaper") {
             override fun run() {
                 executeOnMain(this, 5, 10)
 
             }
         }
-        val splashLoad: Task<Boolean> = object : Task<Boolean>("splashLoad", 1) {
+        val splashLoad: Task<Boolean> = object : Task<Boolean>("splashLoad") {
             override fun run() {
                 backgroundTask.execute(RandomFinishTask(this, 1, 5))
             }
         }
-        val splashShow: Task<Boolean> = object : Task<Boolean>("splashShow", 1) {
+        val splashShow: Task<Boolean> = object : Task<Boolean>("splashShow") {
             override fun run() {
                 finish(true)
             }
         }
-        val splashClose: Task<Boolean> = object : Task<Boolean>("splashClose", 1) {
+        val splashClose: Task<Boolean> = object : Task<Boolean>("splashClose") {
             override fun run() {
                 executeOnMain(this, 1, 5)
             }
