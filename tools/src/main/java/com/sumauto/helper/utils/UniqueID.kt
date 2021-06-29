@@ -88,7 +88,7 @@ object UniqueID {
         }
         @SuppressLint("HardwareIds") var mac = info.macAddress
         if (!TextUtils.isEmpty(mac)) {
-            mac = mac.toUpperCase(Locale.ENGLISH)
+            mac = mac.uppercase(Locale.ENGLISH)
         }
         return mac
     }

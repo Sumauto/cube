@@ -1,5 +1,8 @@
-include ':shell'
+//include ':shell'
 include ':tools'
 include ':datalibrary'
 include ':app'
+//include ':app2'
+//include ':vmsdk'
 rootProject.name = "Cube"
+include ':remote'

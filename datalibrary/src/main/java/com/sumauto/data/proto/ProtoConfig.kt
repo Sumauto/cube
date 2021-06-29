@@ -12,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 
+@Suppress("unused", "UNUSED_VARIABLE")
 object ProtoConfig {
 
     fun <T> get(context: Context, key: Preferences.Key<T>, defaultValue: T): T? {

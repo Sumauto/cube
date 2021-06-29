@@ -5,7 +5,7 @@ import android.os.Process
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.sumauto.helper.log.XLog
-import com.sumauto.constants.LogTag
+import com.sumauto.utils.LogTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
