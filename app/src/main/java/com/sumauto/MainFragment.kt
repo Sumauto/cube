@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.get
 import com.sumauto.cube.databinding.FragmentMainBinding
 import com.sumauto.utils.CubeAdapter
 

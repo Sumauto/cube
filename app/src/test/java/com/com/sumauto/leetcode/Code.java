@@ -4,8 +4,12 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 public class Code {
+
+
+
     /**
      * 删除排序数组中的重复项
      */
@@ -62,6 +66,7 @@ public class Code {
         reverse(nums, 0, k - 1);
         reverse(nums, k, nums.length - 1);
     }
+
     public void reverse(int[] nums, int start, int end) {
         while (start < end) {
             int temp = nums[start];
@@ -71,6 +76,7 @@ public class Code {
             end -= 1;
         }
     }
+
     private void moveArray(int[] nums, int k) {
         int n = nums.length;
         int realMove = k % n;

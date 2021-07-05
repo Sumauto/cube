@@ -10,4 +10,10 @@
 
     <fragment android:id="@+id/navigate_ipc"
         android:name="com.sumauto.cube.ipc.IPCFragment"/>
+
+
+    <fragment android:id="@+id/navigate_anr"
+        android:name="com.sumauto.cube.ANRFragment"/>
+
+
 </navigation>
