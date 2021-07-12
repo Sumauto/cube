@@ -6,3 +6,4 @@ include ':app'
 //include ':vmsdk'
 rootProject.name = "Cube"
 include ':remote'
+include ':KeepAlive'
