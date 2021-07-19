@@ -7,3 +7,4 @@ include ':app'
 rootProject.name = "Cube"
 include ':remote'
 include ':KeepAlive'
+include ':im'

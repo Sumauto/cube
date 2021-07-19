@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(path: ':datalibrary')
     implementation project(path: ':tools')
+    implementation project(path: ':im')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(path: ':KeepAlive')
     testImplementation 'junit:junit:4.13.2'

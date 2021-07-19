@@ -13,7 +13,7 @@ class App : Application() {
         super.onCreate()
         Sumauto.init(this)
         XLog.registerTag(LogTag.COROUTINES, XLog.ENABLE)
-        MemoryManager.memoryTest()
+        //MemoryManager.memoryTest()
 
     }
 

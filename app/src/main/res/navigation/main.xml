@@ -15,5 +15,14 @@
     <fragment android:id="@+id/navigate_anr"
         android:name="com.sumauto.cube.ANRFragment"/>
 
+    <fragment
+        android:id="@+id/navigate_im"
+        android:name="com.sumauto.cube.IMFragment" />
+
+
+    <fragment
+        android:id="@+id/navigate_memory"
+        android:name="com.sumauto.cube.MemoryLeakFragment" />
+
 
 </navigation>

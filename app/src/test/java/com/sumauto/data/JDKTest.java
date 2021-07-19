@@ -2,6 +2,17 @@ package com.sumauto.data;
 
 import org.junit.Test;
 
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -23,6 +34,49 @@ public class JDKTest {
     private static final int TIDYING = 2 << COUNT_BITS;
     private static final int TERMINATED = 3 << COUNT_BITS;
 
+    public void test(){
+       
+    }
+
+    @Test
+    public void testRefer(){
+        ReferenceQueue<ReferObj> queue=new ReferenceQueue<>();
+        ReferObj obj=new ReferObj("Strong");
+        WeakReference<ReferObj> weakRef=new WeakReference<>(new ReferObj("weak"),queue);
+        WeakReference<ReferObj> weakRef2=new WeakReference<>(obj,queue);
+        SoftReference<ReferObj> softRefer=new SoftReference<>(new ReferObj("soft"),queue);
+        weakRef.enqueue();
+        weakRef2.enqueue();
+
+
+        System.out.println("strong:"+obj+" weak:"+weakRef.get()+" soft:"+softRefer.get());
+        System.out.println("poll:"+queue.poll());
+        System.gc();
+        System.out.println("strong:"+obj+" weak:"+weakRef.get()+" soft:"+softRefer.get());
+        System.out.println("poll:"+queue.poll());
+
+
+    }
+
+    @Test
+    public void testInet() {
+        try {
+            InetAddress[] allByName = InetAddress.getAllByName("www.baidu.com");
+            for (InetAddress address : allByName) {
+                System.out.println(address.toString());
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testBin() {
+        int number = 0;
+        System.out.println(Integer.toBinaryString(number));
+        System.out.println(Integer.toBinaryString(number ^ 255 ^ 255));
+    }
+
     @Test
     public void testNumber() {
         System.out.println(Integer.toBinaryString(~0));
@@ -42,6 +96,7 @@ public class JDKTest {
             private final ThreadGroup group;
             private final AtomicInteger threadNumber = new AtomicInteger(1);
             private final String namePrefix;
+
             {
                 SecurityManager s = System.getSecurityManager();
                 group = (s != null) ? s.getThreadGroup() :
@@ -91,8 +146,8 @@ public class JDKTest {
     }
 
     @Test
-    public void testLock(){
-        Lock firstLock=new ReentrantLock();
+    public void testLock() {
+        Lock firstLock = new ReentrantLock();
     }
 
     @Test

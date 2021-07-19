@@ -12,7 +12,7 @@ am start -a android.intent.action.CALL -d tel:10086
 am start -a android.intent.action.VIEW -d https://www.baidu.com
 
 #打开Activity,startActivityAsUser
-am start -n com.sumauto/.MainActivity -e key value
+am start -n com.sumauto/.MainActivity --e key value
 
 #打开Service
 am startservice com.sumauto/.MyService
@@ -78,21 +78,21 @@ am monitor
     - **-p <pacakge>**  *Intent.setPackage()*
     - **-f <flags>**  *Intent.setFlags()*
   - Extra参数,[al]a代表数组，al代表ArrayList;eg: -eia nums 1,2,3,4
-    - **-e/-es[al]**   *String*
+    - **--e/--es[al]**   *String*
     
-    - **-esn**   *(String)null*
+    - **--esn**   *(String)null*
     
-    - **-ez**    *boolean*
+    - **--ez**    *boolean*
     
-    - **-ei[al]**    *int*
+    - **--ei[al]**    *int*
     
-    - **-el[al]**    *long*
+    - **--el[al]**    *long*
     
-    - **-ef[al]**    *float*
+    - **--ef[al]**    *float*
     
-    - **-eu**    *Uri*
+    - **--eu**    *Uri*
     
-    - **-ecn**     *componet*
+    - **--ecn**     *componet*
     
   - Flags eg:am broadcast -a broadcast.demo --exclude-stopped-packages
     

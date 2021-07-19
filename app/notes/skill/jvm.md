@@ -101,7 +101,21 @@ JDK包含JRE和一些工具，JRE包含一些Java API和JVM，JVM是运行class�
   - 存放对象(新生代、老生代)
 - 线程私有
   - 程序计数器、方法栈、Native方法栈
- 
+
 - GC机制
 
 JVM堆、元数据
+
+
+
+#### 引用
+
+- WeakReference
+
+  与ReferenceQueue关联后，当对象没有被引用时，就会进入ReferenceQueue
+
+
+
+- SoftReference
+
+  与ReferenceQueue关联后，当系统内存不足时，就会进入ReferenceQueue

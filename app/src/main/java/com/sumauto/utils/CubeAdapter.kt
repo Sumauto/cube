@@ -19,7 +19,9 @@ class CubeAdapter : RecyclerView.Adapter<ViewBindingHolder<ListCubeItemBinding>>
 //        Item("222", WorkFlowTest::class.java),
 //        Item("222", RxActivity::class.java),
         Item("IPC Test", destination = R.id.navigate_ipc),
-        Item("ANR Test", destination = R.id.navigate_anr)
+        Item("ANR Test", destination = R.id.navigate_anr),
+        Item("Memory Test", destination = R.id.navigate_memory),
+        Item("IM Test", destination = R.id.navigate_im)
     )
 
     override fun onCreateViewHolder(
