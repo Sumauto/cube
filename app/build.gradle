@@ -7,6 +7,14 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('Untitled')
+            storePassword 'sumauto'
+            keyAlias 'cube'
+            keyPassword 'sumauto'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -22,7 +30,13 @@ android {
             viewBinding = true
             //dataBinding = true
         }
+        lintOptions{
+            abortOnError false
+        }
+
+
     }
+
 
 
 
@@ -31,6 +45,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -54,6 +72,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(path: ':KeepAlive')
     testImplementation 'junit:junit:4.13.2'
+    implementation files('libs/apk-channel.jar')
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.code.gson:gson:2.8.6'

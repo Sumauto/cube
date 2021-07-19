@@ -8,3 +8,6 @@ rootProject.name = "Cube"
 include ':remote'
 include ':KeepAlive'
 include ':im'
+//include ':ChannelRead'
+//include ':ChannelWrite'
+include ':ApkSigner'
