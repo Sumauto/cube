@@ -80,6 +80,9 @@ public class ApkChannel {
         System.out.println("dump raw apk--->> ");
         DumpInfo info = new DumpInfo();
         dumpSigningBlock(signingBlockDataSource, info);
+        if (info.channel!=null){
+            throw new RuntimeException("Apk 已经设置渠道："+new String(info.channel));
+        }
 
         System.out.println("make copy--->>");
         //make a copy
