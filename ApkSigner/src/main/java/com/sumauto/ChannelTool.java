@@ -1,5 +1,7 @@
 package com.sumauto;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class ChannelTool {
@@ -20,10 +22,30 @@ public class ChannelTool {
         if ("-w".equals(args[0])) {
             String apkPath = args[1];
             String[] channels = args[2].split(",");
-            for (String channel : channels) {
-                new ApkChannel(apkPath,channel).run();
-            }
-            return;
+            writeChannel(apkPath,channels);
         }
+    }
+
+
+    public static void writeChannel(String pathArg,String[] channels) {
+        //添加任务
+        //"ApkSigner/apk/app-debug.apk"
+        File file = new File(pathArg);
+        if (!file.exists()) {
+            throw new RuntimeException(new FileNotFoundException(pathArg));
+        }
+        String absPath = file.getAbsolutePath();
+
+        for (String channel : channels) {
+
+            writeChannel(absPath, channel);
+        }
+
+    }
+
+    private static void writeChannel(String path, String channel) {
+        String value = "{\"hume_channel_id\": \"" + channel + "\"}";
+        new ApkChannel(path, ApkChannel.HUME_CHANNEL_ID, value, channel).run();
+
     }
 }

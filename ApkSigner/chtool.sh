@@ -1,7 +1,5 @@
 jar_path=build/outputs/apk-channel.jar
 
-apk= $2
-
 if [ '-r' == $1 ]; then
   java -cp $jar_path com.sumauto.ChannelTool -r $2
 fi

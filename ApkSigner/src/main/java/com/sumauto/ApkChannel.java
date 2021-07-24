@@ -22,36 +22,32 @@ public class ApkChannel {
 
 
     public static final int PADDING_BLOCK_ID = 0x42726577;
-    public static final int CHANNEL_ID = 0x33333333;
+    public static final int HUME_CHANNEL_ID = 0x99666666;
     private final File inputFile;
     private final File outPutFile;
-    private final String channel;
+    private final int id;
+    private final String value;
 
 
-    public ApkChannel(String apkPath, String channel) {
+    public ApkChannel(String apkPath, int id, String value, String fileSuffix) {
+        this.id = id;
+        this.value = value;
         inputFile = new File(apkPath);
         String outPath;
         if (apkPath.endsWith(".apk")) {
-            outPath = String.format("%s-%s.apk", apkPath.substring(0, apkPath.length() - 4), channel);
+            outPath = String.format("%s-%s.apk", apkPath.substring(0, apkPath.length() - 4), fileSuffix);
         } else {
             outPath = apkPath + ".apk";
         }
         outPutFile = new File(outPath);
-        this.channel = channel;
     }
 
 
-    public static void main(String[] arg) {
-        System.out.println(new File(".").getAbsolutePath());
-        //添加任务
-        String path = new File("ApkSigner/apk/app-debug.apk").getAbsolutePath();
-        new ApkChannel(path, "bytedance").run();
-        new ApkChannel(path, "bytedance2").run();
-    }
+
 
     public void run() {
         try {
-            writeChannel(channel);
+            writeChannel(value);
 
             //differBytes();
 
@@ -80,8 +76,8 @@ public class ApkChannel {
         System.out.println("dump raw apk--->> ");
         DumpInfo info = new DumpInfo();
         dumpSigningBlock(signingBlockDataSource, info);
-        if (info.channel!=null){
-            throw new RuntimeException("Apk 已经设置渠道："+new String(info.channel));
+        if (info.channel != null) {
+            throw new RuntimeException("Apk 已经设置渠道：" + new String(info.channel));
         }
 
         System.out.println("make copy--->>");
@@ -109,7 +105,7 @@ public class ApkChannel {
 
         outputFile.seek(startOffset);
         outputFile.write(littleBytes(pairSize));
-        outputFile.write(littleBytes(CHANNEL_ID));
+        outputFile.write(littleBytes(id));
         outputFile.writeBytes(channel);
 
         //写入Padding Block -8-4-len  -len-4
@@ -134,30 +130,6 @@ public class ApkChannel {
         buffer.asIntBuffer().put(number);
         return buffer.array();
     }
-
-    private void differBytes() {
-        try {
-            FileInputStream fin = new FileInputStream(inputFile);
-            FileInputStream fout = new FileInputStream(outPutFile);
-            byte[] inBuffer = new byte[1024];
-            byte[] outBuffer = new byte[1024];
-            long index = 0;
-            while (true) {
-                int len = fin.read(inBuffer);
-                fout.read(outBuffer);
-                if (len != -1) {
-                    index += len;
-                }
-                if (!Arrays.equals(inBuffer, outBuffer)) {
-                    break;
-                }
-            }
-            System.out.println("differ:" + index);
-        } catch (Exception e) {
-
-        }
-    }
-
 
     public static ApkUtils.ApkSigningBlock getSigningBlock(DataSource inputApk) throws IOException, ZipFormatException, ApkSigningBlockNotFoundException {
         ApkUtils.ZipSections inputZipSections = ApkUtils.findZipSections(inputApk);
@@ -201,16 +173,16 @@ public class ApkChannel {
                     printByte(bytes, true, 20);
                 } else if (keyId == V3SchemeSigner.APK_SIGNATURE_SCHEME_V3_BLOCK_ID) {
                     System.out.println("V3_BLOCK_ID");
-                    printByte(bytes, false, 20);
-                } else if (keyId == CHANNEL_ID) {
-                    System.out.println("CHANNEL_ID");
+                    printByte(bytes, true, 20);
+                } else if (keyId == HUME_CHANNEL_ID) {
+                    System.out.println("HUME_CHANNEL_ID");
                     if (info != null) {
                         info.channel = bytes;
                     }
                     printByte(bytes, false, -1);
                 } else {
                     System.out.println("UNKNOWN_BLOCK_ID");
-                    printByte(bytes, true, 20);
+                    printByte(bytes, bytes.length > 50, 20);
                 }
                 System.out.println();
 
@@ -249,7 +221,7 @@ public class ApkChannel {
             ApkUtils.ApkSigningBlock signingBlock = ApkChannel.getSigningBlock(inputApk);
             DumpInfo info = new DumpInfo();
             ApkChannel.dumpSigningBlock(signingBlock.getContents(), info);
-            if (info.channel==null){
+            if (info.channel == null) {
                 return "";
             }
             return new String(info.channel);
