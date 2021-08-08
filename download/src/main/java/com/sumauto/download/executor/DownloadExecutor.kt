@@ -1,5 +1,8 @@
 package com.sumauto.download
 
+import com.sumauto.download.executor.DownloadWork
+import com.sumauto.download.source.AbstractSource
+import com.sumauto.download.source.UrlSource
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -12,15 +15,30 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 object DownloadExecutor {
 
+    val deque = LinkedBlockingDeque<DownloadWork>()
     private var executor = ThreadPoolExecutor(
         3,
         3,
-        30,
+        0,
         TimeUnit.SECONDS,
-        SynchronousQueue<Runnable>(),
-        TF()
+        deque as LinkedBlockingDeque<Runnable>,
+        TF(),
+        ThreadPoolExecutor.AbortPolicy()
     )
 
+    fun execute(runnable: DownloadWork) {
+        executor.execute(runnable)
+    }
+
+    fun cancel(source: AbstractSource) {
+        deque.removeIf {
+            if (it.source() == source) {
+                it.isFinished=true
+                return@removeIf true
+            }
+            false
+        }
+    }
 
 }
 

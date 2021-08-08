@@ -1,0 +1,59 @@
+@startuml
+participant cl as "客户端"
+participant dl as "Downloader"
+participant ws as "Workspace"
+participant server as "服务端"
+
+activate cl
+cl->dl:初始化Downloader
+activate dl
+
+dl->ws:初始化Workspace
+activate ws
+opt 创建工作目录
+    ws->ws:生成配置文件
+end
+ws-->dl:workspace初始化成功
+dl-->cl:初始化成功
+cl->dl:下载url
+
+alt 已存在对应的下载任务
+    dl-->cl:返回已存在的下载任务
+else 不存在对应下载任务
+    dl->ws:根据url生成工作目录和配置文件
+    ws-->dl:成功
+    dl-->cl:返回下载任务
+
+end
+
+
+cl->cl:设置下载任务监听
+cl->dl:开启下载任务
+
+opt 任务还未开始
+    alt 存在下载信息
+        dl->dl:加载下载信息
+    else 不存在下载信息
+        dl->server:探测下载信息
+        activate server
+        server-->dl:返回信息
+        deactivate server
+        dl->dl:根据Accept-Ranges判断是否支持切片下载
+        opt 支持切片
+            dl->dl:根据pageSize，创建切片任务
+        end
+        dl-->>ws:保存下载信息
+    end
+    dl->server:创建线程池，执行下载任务
+    activate server
+
+end
+server-->>dl:返回数据
+dl-->>ws:更新工作区
+dl-->>cl:发布下载进度
+cl-->>dl:取消
+server-->dl:所有任务下载完成
+dl-->dl:清理下载任务
+deactivate server
+dl-->cl:下载成功
+@enduml

@@ -6,6 +6,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.http2.Header
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 
 /*
@@ -16,9 +17,12 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object DownloadClient {
     private val client = OkHttpClient.Builder()
+        .followRedirects(true)
+        .retryOnConnectionFailure(true)
+        .readTimeout(15,TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor {
             DLog.log(it)
-        }.setLevel(HttpLoggingInterceptor.Level.HEADERS))
+        }.setLevel(HttpLoggingInterceptor.Level.NONE))
         .build()
 
     fun get(url:String):Response{
