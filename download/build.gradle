@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'maven-publish'
+
 }
 
 android {
@@ -51,4 +53,36 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
     testImplementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+}
+
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.convention("sources")
+    archiveClassifier.set("sources")
+}
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "product".
+            product(MavenPublication) {
+                // Applies the component for the release build variant.
+                artifact sourcesJar
+
+                from components.debug
+                ///Users/lincoln.zhu/.m2/repository/com/sumauto/tools
+                // You can then customize attributes of the publication as shown below.
+                groupId = maven_group_id
+                artifactId = 'download'
+                version = VERSION_NAME
+
+
+            }
+
+        }
+    }
 }
