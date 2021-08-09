@@ -17,7 +17,7 @@ import java.io.File
 
 abstract class AbstractSource(var uri: String) {
 
-    protected val downloadSpace: DownloadSpace by lazy {
+    val downloadSpace: DownloadSpace by lazy {
         DownloadSpace(Downloader.workSpace.createDownloadDir(md5(uri)))
     }
 
@@ -56,6 +56,10 @@ abstract class AbstractSource(var uri: String) {
 
     fun totalLength(): Long {
         return downloadSpace.totalLength()
+    }
+
+    fun hasComplete(): Boolean {
+        return downloadSpace.hasComplete()
     }
 
     fun saveDownloadInfo(fileName: String, size: Long, rangeSupport: Boolean) {
