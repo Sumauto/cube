@@ -32,6 +32,17 @@ object Downloader {
         hasInitialized = true
     }
 
+    fun getDownloadInfo(url: String): DownloadInfo {
+        val info = DownloadInfo(url)
+        val source = UrlSource(url)
+        info.downloaded=source.calculateDownloadedBytes()
+        info.total=source.totalLength()
+        if (source.hasComplete()){
+            info.outputFile=source.downloadSpace.outputFile()
+        }
+        return info
+    }
+
 
     @Throws(exceptionClasses = [NetworkException::class, UnknownException::class, DownloadException::class])
     fun create(url: String, options: Options?): DownloadHandler {
