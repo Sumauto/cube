@@ -3,6 +3,7 @@ package com.sumauto.download
 import com.sumauto.download.exceptions.CancelException
 import com.sumauto.download.exceptions.UnknownException
 import com.sumauto.download.source.AbstractSource
+import com.sumauto.download.handler.Result
 import okhttp3.internal.notifyAll
 import okhttp3.internal.wait
 import java.io.File
@@ -41,7 +42,7 @@ class DownloadHandler(var source: AbstractSource) {
             result.successFile = file
             notifyAll()
             downloadListeners.toList().forEach {
-                it.onSuccess(file)
+                it.onSuccess(source,file)
             }
         }
     }
@@ -53,7 +54,7 @@ class DownloadHandler(var source: AbstractSource) {
             result.exception = e
             notifyAll()
             downloadListeners.toList().forEach {
-                it.onCancel()
+                it.onCancel(source)
             }
         }
     }
@@ -64,7 +65,7 @@ class DownloadHandler(var source: AbstractSource) {
             result.exception = e
             notifyAll()
             downloadListeners.toList().forEach {
-                it.onError(e)
+                it.onError(source,e)
             }
         }
 
@@ -138,7 +139,7 @@ class DownloadHandler(var source: AbstractSource) {
         }
     }
 
-    private fun getResultSync(): Result {
+    private fun getResultSync(): com.sumauto.download.handler.Result {
         synchronized(this) {
             while (status != Status.DONE) {
                 try {
@@ -156,19 +157,8 @@ class DownloadHandler(var source: AbstractSource) {
         notifyProgress(downloaded, totalLength)
     }
 
-    interface DownloadListener {
-        fun onSuccess(file: File)
-        fun onError(e: Exception)
-        fun onCancel()
-    }
-
     interface DownloadProgressListener {
         fun onProgressUpdate(downloaded: Long, total: Long) {}
-    }
-
-    class Result {
-        var successFile: File? = null
-        var exception: Exception? = null
     }
 
     enum class Status {

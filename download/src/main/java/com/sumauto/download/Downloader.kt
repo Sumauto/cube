@@ -1,8 +1,11 @@
 package com.sumauto.download
 
+import com.sumauto.download.db.AppDataBase
+import com.sumauto.download.db.entity.DownloadInfo
 import com.sumauto.download.exceptions.DownloadException
 import com.sumauto.download.exceptions.NetworkException
 import com.sumauto.download.exceptions.UnknownException
+import com.sumauto.download.source.AbstractSource
 import com.sumauto.download.source.UrlSource
 import com.sumauto.download.space.MainSpace
 import java.io.File
@@ -32,15 +35,10 @@ object Downloader {
         hasInitialized = true
     }
 
-    fun getDownloadInfo(url: String): DownloadInfo {
-        val info = DownloadInfo(url)
-        val source = UrlSource(url)
-        info.downloaded=source.calculateDownloadedBytes()
-        info.total=source.totalLength()
-        if (source.hasComplete()){
-            info.outputFile=source.downloadSpace.outputFile()
-        }
-        return info
+
+    fun getDownloadInfo(url: String): DownloadInfo? {
+
+        return AppDataBase.get().downloadDao().getDownloadInfo(url)
     }
 
 
@@ -59,18 +57,23 @@ object Downloader {
             handler = DownloadHandler(source)
             downloadHandlerMap[url] = handler
 
-            handler.addDownloadListener(object : DownloadHandler.DownloadListener {
-                override fun onSuccess(file: File) {
+            handler.addDownloadListener(object : DownloadListener() {
+
+                override fun onSuccess(source: AbstractSource, file: File) {
+                    super.onSuccess(source, file)
                     recycle()
                 }
 
-                override fun onError(e: Exception) {
+                override fun onCancel(source: AbstractSource) {
+                    super.onCancel(source)
                     recycle()
                 }
 
-                override fun onCancel() {
+                override fun onError(source: AbstractSource, e: Exception) {
+                    super.onError(source, e)
                     recycle()
                 }
+
 
                 private fun recycle() {
                     handler.clear()

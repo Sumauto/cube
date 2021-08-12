@@ -40,6 +40,14 @@ object DownloadExecutor {
         }
     }
 
+    fun isScheduled(url:String):Boolean{
+        val find=deque.find { it.source().uri==url }
+        if (find!=null){
+            return true
+        }
+        return false
+    }
+
 }
 
 class TF : ThreadFactory {

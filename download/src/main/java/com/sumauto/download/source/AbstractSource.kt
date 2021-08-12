@@ -3,6 +3,8 @@ package com.sumauto.download.source
 import com.sumauto.download.DownloadExecutor
 import com.sumauto.download.DownloadHandler
 import com.sumauto.download.Downloader
+import com.sumauto.download.db.AppDataBase
+import com.sumauto.download.db.entity.DownloadInfo
 import com.sumauto.download.md5
 import com.sumauto.download.space.DownloadSpace
 import java.io.File
@@ -19,6 +21,14 @@ abstract class AbstractSource(var uri: String) {
 
     val downloadSpace: DownloadSpace by lazy {
         DownloadSpace(Downloader.workSpace.createDownloadDir(md5(uri)))
+    }
+
+    val downloadInfo: DownloadInfo?
+
+    init {
+        AppDataBase.get().downloadDao().getDownloadFlow(uri).collect{it->
+
+        }
     }
 
     var listener: DownloadHandler.DownloadProgressListener? = null

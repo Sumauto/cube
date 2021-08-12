@@ -1,5 +1,7 @@
 package com.sumauto.download.space
 
+import com.sumauto.download.db.AppDataBase
+import com.sumauto.download.db.entity.DownloadInfo
 import com.sumauto.download.space.AbsWorkSpace
 import okhttp3.internal.toLongOrDefault
 import java.io.File
@@ -18,6 +20,9 @@ const val P_KEY_SIZE = "fileSize"
 const val P_KEY_RANGE = "support_range"
 
 class DownloadSpace(baseDir: File) : AbsWorkSpace(baseDir, "dInfo") {
+
+
+
     fun complete() {
         putProp(P_KEY_DONE, "1")
         saveProperties()

@@ -16,16 +16,16 @@ import java.util.concurrent.TimeUnit
  * History:		2021/07/27 
  */
 object DownloadClient {
-    private val client = OkHttpClient.Builder()
+    val client = OkHttpClient.Builder()
         .followRedirects(true)
         .retryOnConnectionFailure(true)
-        .readTimeout(15,TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
         .addInterceptor(HttpLoggingInterceptor {
             DLog.log(it)
-        }.setLevel(HttpLoggingInterceptor.Level.NONE))
+        }.setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
-    fun get(url:String):Response{
+    fun get(url: String): Response {
         val request = Request.Builder().url(url)
             .get()
             .build()
@@ -33,10 +33,10 @@ object DownloadClient {
         return newCall.execute()
     }
 
-    fun getRange(url:String,start:Long,end:Long):Response{
+    fun getRange(url: String, start: Long, end: Long): Response {
         val request = Request.Builder().url(url)
             .get()
-            .addHeader("Range","bytes=$start-$end")
+            .addHeader("Range", "bytes=$start-$end")
             .build()
         val newCall = client.newCall(request)
         return newCall.execute()
