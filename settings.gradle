@@ -14,4 +14,9 @@ rootProject.name = "Cube"
 //include ':ApkSigner'
 //include ':dowload'
 //include ':mylibrary'
+
+
+
+//包含下载功能
 include ':download'
+include ':photo'

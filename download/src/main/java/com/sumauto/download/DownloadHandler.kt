@@ -131,7 +131,7 @@ class DownloadHandler(var source: AbstractSource) {
         source.cancel()
     }
 
-    fun clear() {
+    internal fun clear() {
         synchronized(this) {
             downloadListeners.clear()
             downloadProgressListeners.clear()
