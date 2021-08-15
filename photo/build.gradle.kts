@@ -1,10 +1,8 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
     id("maven-publish")
 }
 
-//apply(from = "../maven.gradle.kts")
 version = "1.0.1"
 
 android {
@@ -20,43 +18,24 @@ android {
         consumerProguardFile("consumer-rules.pro")
     }
 
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
 
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     sourceSets {
-        getByName("test") {
-            java {
-                srcDir("src/main/java")
+        val dirs = arrayOf("p_scaleimageview", "p_progressview")
+        getByName("main") {
+            dirs.forEach { dir ->
+                java.srcDir("src/${dir}/main/java")
+                res.srcDir("src/${dir}/main/res")
             }
         }
+    }
 
+    lintOptions {
+        isAbortOnError=false
     }
 }
 
 dependencies {
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Ver.kotlin}")
-    implementation("androidx.core:core-ktx:1.6.0")
-    implementation("com.squareup.okhttp3:okhttp:${Ver.okhttp}")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.12.0")
-
-    testImplementation("com.squareup.okhttp3:okhttp:${Ver.okhttp}")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.squareup.okhttp3:logging-interceptor:3.12.0")
+    implementation(Dep.viewpager)
 }
 
 

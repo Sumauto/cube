@@ -45,6 +45,10 @@ object Dep {
         "androidx.cardview:cardview:1.0.0"
     )
 
+    val viewpager= listOf(
+        "com.google.android.material:material:${Ver.material}"
+    )
+
     val other = listOf(
         "com.blankj:utilcodex:1.30.0",
         "com.github.sumauto:cube:1.0.2"
