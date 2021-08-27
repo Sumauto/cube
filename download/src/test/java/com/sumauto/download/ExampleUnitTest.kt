@@ -22,15 +22,33 @@ class ExampleUnitTest {
                 workDir = File("work_dir").absolutePath
             )
         )
-        doDownload(true)
-        doDownload(true)
-        doDownload(false)
+        doDownload(false, Downloader.Options(
+            downloadDir = File("123/1.0.1"),
+            //dirConflictStrategy = DirConflictStrategy.FAIL
+        ))
+        doDownload(false, Downloader.Options(
+            downloadDir = File("123/1.0.2"),
+            //dirConflictStrategy = DirConflictStrategy.USE_OLD
+        ))
+        doDownload(false, Downloader.Options(
+            downloadDir = File("123/1.0.3"),
+            //dirConflictStrategy = DirConflictStrategy.CREATE
+        ))
+
+        doDownload(false, Downloader.Options(
+            downloadDir = File("123/1.0.4"),
+            //dirConflictStrategy = DirConflictStrategy.DELETE
+        ))
+
 
     }
 
-    fun doDownload(doCancel: Boolean) {
+    fun doDownload(doCancel: Boolean, options: Downloader.Options) {
 
-        val handler = Downloader.create(URL, Downloader.Options())
+
+        val handler = Downloader.create(
+            URL,options
+        )
         handler.addDownloadListener(object : DownloadHandler.DownloadListener {
             override fun onSuccess(file: File) {
                 println("success:$file")
@@ -48,7 +66,7 @@ class ExampleUnitTest {
 
         handler.addProgressListener(object : DownloadHandler.DownloadProgressListener {
             override fun onProgressUpdate(downloaded: Long, total: Long) {
-                println("onProgressUpdate:${progress(downloaded,total)}%")
+                println("onProgressUpdate:${progress(downloaded, total)}%")
             }
         })
         if (doCancel) {

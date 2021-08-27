@@ -35,10 +35,10 @@ object Downloader {
     fun getDownloadInfo(url: String): DownloadInfo {
         val info = DownloadInfo(url)
         val source = UrlSource(url)
-        info.downloaded=source.calculateDownloadedBytes()
-        info.total=source.totalLength()
-        if (source.hasComplete()){
-            info.outputFile=source.downloadSpace.outputFile()
+        info.downloaded = source.calculateDownloadedBytes()
+        info.total = source.totalLength()
+        if (source.hasComplete()) {
+            info.outputFile = source.downloadSpace.outputFile()
         }
         return info
     }
@@ -55,8 +55,13 @@ object Downloader {
                 return handler
             }
 
-            val source = UrlSource(url)
-            handler = DownloadHandler(source)
+
+            val downloadDir = options?.downloadDir
+            if (downloadDir != null) {
+                workSpace.registerDownloadDir(url, downloadDir,options.dirConflictStrategy)
+            }
+
+            handler = DownloadHandler(UrlSource(url))
             downloadHandlerMap[url] = handler
 
             handler.addDownloadListener(object : DownloadHandler.DownloadListener {
@@ -85,7 +90,9 @@ object Downloader {
 
 
     data class Options(
-        val PAGE_SIZE: Int = 0
+        val PAGE_SIZE: Int = 0,
+        val downloadDir: File?=null,
+        val dirConflictStrategy:DirConflictStrategy=DirConflictStrategy.CREATE
     )
 
 

@@ -41,6 +41,11 @@ abstract class AbsWorkSpace(
         spaceProp.setProperty(key, v)
     }
 
+    fun putAndSaveProp(key: String, v: String) {
+        spaceProp.setProperty(key, v)
+        saveProperties()
+    }
+
     fun getProp(key: String): String? {
         return spaceProp.getProperty(key)
     }

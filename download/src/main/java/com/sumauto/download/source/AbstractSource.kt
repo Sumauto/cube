@@ -18,7 +18,7 @@ import java.io.File
 abstract class AbstractSource(var uri: String) {
 
     val downloadSpace: DownloadSpace by lazy {
-        DownloadSpace(Downloader.workSpace.createDownloadDir(md5(uri)))
+        DownloadSpace(Downloader.workSpace.createDownloadDir(uri))
     }
 
     var listener: DownloadHandler.DownloadProgressListener? = null
