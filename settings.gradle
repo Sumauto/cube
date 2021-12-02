@@ -20,3 +20,4 @@ rootProject.name = "Cube"
 //包含下载功能
 include ':download'
 include ':photo'
+include ':KeepAlive'

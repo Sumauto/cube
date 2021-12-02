@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "Application" {
+  [MainProcess]
+  [Daemon1]
+  [Daemon2]
+  [Daemon3]
+}
+
+package Root{
+    [DaemonGuard1]
+    [DaemonGuard2]
+    [DaemonGuard3]
+}
+
+package FileSystem{
+    [file1]
+    [file2]
+    [file3]
+}
+
+[Daemon1]-->[file1]
+[Daemon2]-->[file2]
+[Daemon3]-->[file3]
+
+[file1]<--[DaemonGuard1]
+[file2]<--[DaemonGuard2]
+[file3]<--[DaemonGuard3]
+
+@enduml
